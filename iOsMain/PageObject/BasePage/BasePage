@@ -1,0 +1,131 @@
+
+
+import UIKit
+import XCTest
+/*
+ extension for XCUIElement for scroll to window untill element appears on screen
+ */
+extension XCUIElement {
+    func scrollToElement(element: XCUIElement) {
+        while !element.visible() {
+            swipeUp()
+        }
+    }
+    //method for check elements visibility in current visible screen
+    func visible() -> Bool {
+        guard self.exists && !self.frame.isEmpty else { return false }
+        return XCUIApplication().windows.element(boundBy: 0).frame.contains(self.frame)
+    }
+}
+/*
+ BasePage class for common functionality used by each lob
+ */
+class BasePage: XCTest {
+    
+    override init() {
+        super.init()
+    }
+    
+    /*
+     variable declaration
+     */
+    let handleAlertPopUp:XCUIElement = app.alerts.buttons["Allow"]
+    private var error:NSError?
+    
+    /*
+     method for wait till element appear appears on screen if visibility is dependent on some backend call
+     */
+    public func waitForElementToAppear(_ element: XCUIElement) -> Bool {
+        let predicate = NSPredicate(format: "exists == true")
+        let expectation = XCTKVOExpectation(keyPath: "exists", object: element,expectedValue: true)
+        let result = XCTWaiter().wait(for: [expectation], timeout: 3)
+        return result == .completed
+    }
+    
+    //method for swiping window till element appears on screen
+    public func swipeUpUntillElementFind(_ app:XCUIApplication,_ element: XCUIElement,_ noOfMaxSwipe: Int) ->Bool {
+        var ele: XCUIElementQuery = app.tables
+        let table: XCUIElement = ele.element
+        
+        if element.exists{
+            return true
+        }
+        else{
+            for _ in 1...noOfMaxSwipe{
+                table.swipeUp()
+                if element.exists{
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    /*
+     method for tap on element present on current storyboard
+     */
+    public func tapOnElement(_ element: String,_ app: XCUIApplication){
+        app.buttons[element].tap()
+    }
+    /*
+     method for scroll down page till cell count
+     */
+    public func scrollDown(_ cellCount: UInt){
+        let element1: XCUIElement = app.tables.staticTexts["Important information"]
+        let table = app.tables.element(boundBy: 0)
+        let cells = table.cells.count
+        let index = cells - cellCount
+        let lastCell = table.cells.element(boundBy: index)
+        table.scrollToElement(element: lastCell)
+    }
+    /*
+     method for scroll down page till end scroll count needs to pass as parameter
+     */
+    internal func scrollDownPageTillEnd(_ count: Int){
+        var table: XCUIElementQuery = app.tables
+        let tables: XCUIElement = table.element
+        for _ in 0...count{
+            tables.swipeUp()
+        }
+    }
+    
+    /*
+     method for handling device alert like location and notification handling
+     */
+    internal func handleAlert(){
+        Thread.sleep(forTimeInterval: 0.5)
+        if handleAlertPopUp.exists{
+            handleAlertPopUp.tap()
+        }
+        else{
+            print(error.debugDescription)
+        }
+    }
+    
+    
+}
+
+extension XCUIElement {
+    /**
+     Removes any current text in the field before typing in the new value
+     - Parameter text: the text to enter into the field
+     */
+    func clearAndEnterText(text: String) {
+        guard let stringValue = self.value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+        
+        self.tap()
+        
+        let deleteString = stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
+        
+        self.typeText(deleteString)
+        self.typeText(text)
+    }
+}
+
+enum ElementError : Error {
+    case RuntimeError(String)
+}
+
+
