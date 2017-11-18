@@ -1,0 +1,75 @@
+
+
+import UIKit
+import XCTest
+
+class Name {
+    static let sharedInstance: Name = Name()
+    var app: XCUIApplication = XCUIApplication()
+    private init() {
+
+    }
+}
+
+class BaseObserver: NSObject,XCTestObservation {
+    
+    var app: XCUIApplication?
+    
+    private override init() {
+        super.init()
+        let sharedSession=XCTestObservationCenter.shared()
+        app = Name.sharedInstance.app
+        sharedSession.addTestObserver(self)
+    }
+    
+    
+     func testBundleWillStart(_ testBundle: Bundle){
+        
+    }
+    // Called immediately before a test suite starts executing.
+    internal func testSuiteWillStart(_testSuite: XCTestSuite){
+        
+    }
+    
+    //Called immediately before a test case starts executing.
+    internal  func testCaseWillStart(_ testcase: XCTestCase){
+//        app!.launchArguments += ["uitest"]
+//        app!.launchEnvironment["http://test.com"]
+//            = "{\"message\": \("hello")}"
+        app!.launch()
+        sleep(4)
+    }
+    
+    //Called when a test case reports a failure.
+    internal func testCase(_ testcase: XCTestCase, didFailWithDescription: String, inFile: String?, atLine: Int){
+        
+    }
+    
+    //Called immediately after a test case finishes executing.
+    internal func testCaseDidFinish(_ testcase: XCTestCase){
+        app!.terminate()
+    }
+    
+    //Called when a test suite reports a failure.
+    internal func testSuite(_ testcase: XCTestSuite, didFailWithDescription: String, inFile: String?, atLine: Int){
+        
+    }
+    
+    //Called immediately after a test suite finishes executing.
+    internal func testSuiteDidFinish(_ testSuite: XCTestSuite){
+        
+    }
+    
+    //Called immediately after all tests in a test bundle have finished executing.
+    internal func testBundleDidFinish(_ bundle: Bundle){
+        
+    }
+    
+    public func getAppObject() -> XCUIApplication{
+        return app!
+    }
+    
+
+    
+    
+  }
