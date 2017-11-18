@@ -1,0 +1,31 @@
+import UIKit
+import XCTest
+
+class HotelBasePageSingletonHelper{
+    var app: XCUIApplication!
+    
+}
+
+class Lob1: BasePage {
+    /* static let sharedInstance:HotelBasePage = HotelBasePage()
+     private static let setup1 = HotelBasePageSingletonHelper()
+     
+     class func setup(_ app: XCUIApplication){
+     HotelBasePage.setup1.app = app
+     }
+     
+     
+     private override init() {
+     super.init()
+     } */
+    
+    //variables declaration
+    let selectRoomTag: String = "Select Room"
+    let searchCity:String = "Ginger Goa"
+    private let MMGiveItATry:XCUIElement = app.buttons["GIVE IT A TRY!"]
+    
+    
+    public func openLandingPage(){
+        let collectionViewsQuery = app.collectionViews
+        collectionViewsQuery.staticTexts["Hotels"].tap()
+    }
