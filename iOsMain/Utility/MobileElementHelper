@@ -1,0 +1,27 @@
+
+
+import UIKit
+import XCTest
+
+class MobileElementsHelper: NSObject {
+    
+    
+    class func getCurrentStoryBoard(_ app: XCUIApplication)  {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //    let storyBoard: UIStoryboard? = self.getStoryBoard
+        print(storyboard)
+    }
+    
+    class func getCurrentDate(){
+        let date = NSDate()
+        let calendar = NSCalendar.current
+//        let components = calendar.dateComponents([.day, .month, .year], from: date as NSDate)
+//        let year = components.year
+//        let month = components.month
+//        let day = components.day
+//        
+//        print(year ?? 2016)
+//        print(month ?? 12)
+//        print(day ?? 30)
+    }
+}
