@@ -31,3 +31,7 @@ This performance data is being captured after every ui test success.
 1![](https://github.com/Vishvnath96/IOS-XCUITest-PerformanceTest-Framework/blob/master/iosNfrArch.png)
 
 After test case is passed we only capture memory ,cpu and network utilization for respected test cases.
+
+# For Detailed info:
+kindly refer below links:
+![](https://medium.com/makemytrip-engineering/non-functional-metrics-evaluation-of-makemytrip-ios-app-ad3f1e2d1544)
