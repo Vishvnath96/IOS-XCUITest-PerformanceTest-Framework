@@ -34,4 +34,4 @@ After test case is passed we only capture memory ,cpu and network utilization fo
 
 # For Detailed info:
 kindly refer below links:
-![](https://medium.com/makemytrip-engineering/non-functional-metrics-evaluation-of-makemytrip-ios-app-ad3f1e2d1544)
+https://medium.com/makemytrip-engineering/non-functional-metrics-evaluation-of-makemytrip-ios-app-ad3f1e2d1544
